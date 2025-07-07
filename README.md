@@ -31,10 +31,10 @@ You can start the project directly:
 
 ```shell
 # Quick Testing
-python TSP/test_n100.py
+python TSP/test_n20.py
 
 # Training
-python TSP/train_n100.py 
+python TSP/train_n20.py 
 ```
 
 ## FJSP
