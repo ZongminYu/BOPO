@@ -64,6 +64,7 @@ Please see the `requirements.txt`
 
 ## Cite
 
+> ```
 > @inproceedings{
 > liao2025bopo,
 > title={{BOPO}: Neural Combinatorial Optimization via Best-anchored and Objective-guided Preference Optimization},
@@ -71,3 +72,4 @@ Please see the `requirements.txt`
 > booktitle={Forty-second International Conference on Machine Learning},
 > year={2025},
 > }
+> ```
