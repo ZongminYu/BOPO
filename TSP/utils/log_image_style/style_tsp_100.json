@@ -1,0 +1,19 @@
+{
+    "figsize": {
+      "x": 7,
+      "y": 3.5
+    },
+  
+    "xlim": {
+      "min": null,
+      "max": null
+    },
+  
+    "ylim": {
+      "min": 7.6,
+      "max": 8.0
+    },
+  
+    "grid": true
+  }
+  
