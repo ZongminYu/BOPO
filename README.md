@@ -44,7 +44,7 @@ Implementation of BOPO for FJSP.
 First, unzip the training set and validation set.
 
 ```shell
-unzip FJSP/dataset5k/dataset5k.zip
+unzip FJSP/dataset/dataset.zip
 unzip FJSP/benchmarks/validation/validation.zip
 ```
 
