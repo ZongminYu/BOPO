@@ -17,7 +17,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # import
 
 import logging
-from utils.utils import create_logger
+from utils.utils import create_logger, copy_all_src
 
 from TSPTester import TSPTester as Tester
 
@@ -79,6 +79,8 @@ def main():
                     model_params=model_params,
                     tester_params=tester_params)
 
+    copy_all_src(tester.result_folder)
+    
     tester.run()
 
 

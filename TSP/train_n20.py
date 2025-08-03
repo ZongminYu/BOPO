@@ -17,7 +17,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # import
 
 import logging
-from utils.utils import create_logger
+from utils.utils import create_logger, copy_all_src
 
 from TSPTrainer import TSPTrainer as Trainer
 
@@ -102,6 +102,8 @@ def main():
                       model_params=model_params,
                       optimizer_params=optimizer_params,
                       trainer_params=trainer_params)
+    
+    copy_all_src(trainer.result_folder)
 
     trainer.run()
 

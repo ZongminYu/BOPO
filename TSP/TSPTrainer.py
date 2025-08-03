@@ -59,6 +59,7 @@ class TSPTrainer:
             self.scheduler.last_epoch = model_load['epoch']-1
             self.logger.info('Saved Model Loaded !!')
 
+        self.logger.info('Model: {}'.format(self.model))
         # utility
         self.time_estimator = TimeEstimator()
 
