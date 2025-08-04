@@ -2,8 +2,8 @@ import os
 from dataclasses import dataclass
 import torch
 
-from utils.TSProblemDef import get_random_problems, augment_xy_data_by_8_fold
-from utils.guribo import guribo_tsp
+from utils.TSProblemDef import get_random_problems, augment_xy_data_by_8_fold, get_local_dataset_problems
+# from utils.gurobi import gurobi_tsp
 
 
 @dataclass
@@ -51,15 +51,19 @@ class TSPEnv:
         self.selected_node_list = None
         # shape: (batch, B, 0~problem)
 
-    def load_problems(self, batch_size, aug_factor=1, file_path=None, device='cpu'):
+    def load_problems(self, batch_size, aug_factor=1, file_path=None, use_local_dataset=False, episode=0, device='cpu'):
         self.batch_size = batch_size
         self.opts = None
 
-        if file_path is not None and os.path.exists(file_path):
-            self.problems, self.opts = torch.load(file_path, map_location=device)
-            if aug_factor == 1:
-                self.problems = self.problems[ :self.problems.shape[0]//8]
-            # print('load problems from', file_path)
+        if use_local_dataset:
+            if file_path is not None and os.path.exists(file_path):
+                self.problems = get_local_dataset_problems(batch_size, self.problem_size, episode, file_path)
+                # self.problems, self.opts = torch.load(file_path, map_location=device)
+                # if aug_factor == 1:
+                #     self.problems = self.problems[ :self.problems.shape[0]//8]
+                # print('load problems from', file_path)
+            else:
+                raise FileNotFoundError(f"Local dataset file not found: {file_path}")
         else:
             self.problems = get_random_problems(batch_size, self.problem_size)
             # print('load random problems')
@@ -68,8 +72,8 @@ class TSPEnv:
         if aug_factor > 1:
             if aug_factor == 8:
                 self.batch_size = self.batch_size * 8
-                if file_path is None or not os.path.exists(file_path):
-                    self.problems = augment_xy_data_by_8_fold(self.problems)
+                # if file_path is None or not os.path.exists(file_path):
+                self.problems = augment_xy_data_by_8_fold(self.problems)
                 # shape: (8*batch, problem, 2)
             else:
                 raise NotImplementedError
@@ -123,7 +127,7 @@ class TSPEnv:
     def pre_step(self):
         goal = None
         done = False
-        return self.step_state, goal, done
+        return self.step_state, goal, done, self.selected_node_list
 
     def step(self, selected):
         # selected.shape: (batch, B)
@@ -147,7 +151,7 @@ class TSPEnv:
         else:
             goal = None
 
-        return self.step_state, goal, done
+        return self.step_state, goal, done, self.selected_node_list
 
     def _get_travel_distance(self):
         gathering_index = self.selected_node_list.unsqueeze(3).expand(self.batch_size, -1, self.problem_size, 2)
@@ -165,10 +169,10 @@ class TSPEnv:
         # shape: (batch, B)
         return travel_distances
     
-    def guribo_test_tsp(self):
-        if self.opts is None:
-            self.opts = guribo_tsp(self.problems)
-        return self.opts
+    # def gurobi_test_tsp(self):
+    #     if self.opts is None:
+    #         self.opts = gurobi_tsp(self.problems)
+    #     return self.opts
 
     def save(self, file_path):
         torch.save((self.problems, self.opts), file_path)

@@ -166,11 +166,11 @@ class TSPTrainer:
 
         # Rollout
         ###############################################
-        state, goal, done = self.env.pre_step()
+        state, goal, done, _ = self.env.pre_step()
         while not done:
             selected, prob = self.model(state)
             # shape: (batch, B)
-            state, goal, done = self.env.step(selected)
+            state, goal, done, _ = self.env.step(selected)
             prob_list = torch.cat((prob_list, prob[:, :, None]), dim=2)
 
         # goal shape: (batch_size, B)

@@ -1,8 +1,8 @@
 ##########################################################################################
 # Machine Environment Config
 
-DEBUG_MODE = True
-USE_CUDA = not DEBUG_MODE
+DEBUG_MODE = False
+USE_CUDA = True
 CUDA_DEVICE_NUM = 0
 
 

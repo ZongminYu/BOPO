@@ -2,7 +2,7 @@
 # Machine Environment Config
 
 DEBUG_MODE = False
-USE_CUDA = not DEBUG_MODE
+USE_CUDA = False
 CUDA_DEVICE_NUM = 0
 
 
@@ -56,11 +56,13 @@ tester_params = {
         'path': './result/saved_n20',  # directory path of pre-trained model and log files saved.
         'epoch': 200,  # epoch version of pre-trained model to laod.
     },
-    'test_episodes': 1000,
-    'test_batch_size': 10,
+    'test_episodes': 100*1000,
+    'test_batch_size': 10000,
     'augmentation_enable': True,
     'aug_factor': 8,
-    'aug_batch_size': 10,
+    'aug_batch_size': 1000,
+    "use_local_dataset": True,
+    'local_dataset_path': '/home/yzm/yzm_xp/TSP_precise/database/random01/problems',
 }
 if tester_params['augmentation_enable']:
     tester_params['test_batch_size'] = tester_params['aug_batch_size']

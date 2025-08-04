@@ -11,7 +11,7 @@ def distance(c1, c2):
 
 def solve_tsp_for_multiple_problems(cities_tensor):
 
-    n_problems = cities_tensor.shape[0]
+    n_problems = cities_tensor.shape[0] # test_batch_size * aug_factor
     n_cities = cities_tensor.shape[1]
 
     results = []
@@ -64,7 +64,7 @@ def solve_tsp_for_multiple_problems(cities_tensor):
 
     return results
 
-def guribo_tsp(cities):
+def gurobi_tsp(cities):
 
     results = solve_tsp_for_multiple_problems(cities)
 
